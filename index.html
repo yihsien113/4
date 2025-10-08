@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>接龍記牌小工具 (含復原/反復原功能)</title>
+  <title>接龍記牌小工具 (復原/反復原功能 - 精簡版)</title>
   <style>
     /* ========== 深色模式基礎設定 ========== */
     body { 
@@ -130,7 +130,7 @@
     .sidebar-buttons {
       display: flex;
       flex-direction: column; 
-      width: 100px; 
+      width: 90px; /* 縮小寬度 */
       margin-right: 30px; 
       padding-top: 5px; 
     }
@@ -168,23 +168,23 @@
         color: #ff6b6b !important; 
     }
 
-    /* ========== 側邊清除按鈕樣式 (通用) ========== */
+    /* ========== 側邊清除按鈕樣式 (通用) - 縮小調整 ========== */
     .clear-button { 
-      font-size: 18px; 
-      padding: 10px 10px;
+      font-size: 16px; /* 縮小文字 */
+      padding: 8px 8px; /* 縮小內邊距 */
       margin: 5px 0;
       border-radius: 6px;
       color: white; 
       border: none;
-      width: 100px; 
+      width: 90px; /* 縮小寬度 */
       display: flex;
       flex-direction: column; 
       align-items: center;
     }
 
     .clear-icon {
-      font-size: 30px; 
-      margin-bottom: 3px;
+      font-size: 24px; /* 縮小圖標 */
+      margin-bottom: 2px; /* 微調間距 */
     }
     
     /* 清除空格按鈕 (綠色) */
@@ -209,9 +209,9 @@
         box-shadow: 0 2px 0 #2071a1;
     }
     
-    /* 新增：反復原按鈕 (藍綠色) */
+    /* 反復原按鈕 (藍綠色) */
     .redo-button {
-        background: #1abc9c; /* 海綠色/青色 */
+        background: #1abc9c; 
         box-shadow: 0 3px 0 #16a085;
     }
     .redo-button:hover {
@@ -224,7 +224,7 @@
 </head>
 <body>
 
-  <h2>接龍記牌小工具 (復原/反復原功能)</h2>
+  <h2>接龍記牌小工具 (最大記憶：200 步)</h2>
 
   <div class="top-selection">
       
@@ -266,6 +266,12 @@
   
   <div class="main-area">
       <div class="sidebar-buttons">
+          
+          <button class="clear-button clear-empty" onclick="removeEmptySlots()">
+              <span class="clear-icon">🗑️</span>
+              清除空格
+          </button>
+          
           <button class="clear-button undo-button" onclick="undo()">
               <span class="clear-icon">↶</span>
               復原
@@ -276,10 +282,6 @@
               反復原
           </button>
 
-          <button class="clear-button clear-empty" onclick="removeEmptySlots()">
-              <span class="clear-icon">🗑️</span>
-              清除空格
-          </button>
       </div>
       
       <div class="grid" id="slots"></div>
@@ -292,8 +294,8 @@
     
     // ========== 復原/反復原功能核心變數與函數 ==========
     let history = [];
-    let redoStack = []; // 新增：用於反復原的堆疊
-    const MAX_HISTORY = 40; // 儲存最多 40 個步驟
+    let redoStack = []; // 用於反復原的堆疊
+    const MAX_HISTORY = 200; // ***已調整為 200 個步驟***
 
     function getCurrentState() {
         const slots = document.querySelectorAll('.slot');
